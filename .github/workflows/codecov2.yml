@@ -1,0 +1,40 @@
+name: codecov2
+
+on:
+  schedule:
+    - cron: "0 0 * * 2"
+  workflow_dispatch:
+
+jobs:
+  codecov:
+    runs-on: ubuntu-latest
+    env:
+      DEPS: debug
+      Configuration: Debug
+      ROOT_DIR: ${{ github.workspace }}/..
+    steps:
+      - name: Checkout GDL
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          scripts/build_gdl.sh prep
+      - name: Prepare Codecov
+        run: |
+          sudo apt install -y lcov
+      - name: Build GDL
+        run: |
+          git submodule update --init
+          mkdir build
+          cd build
+          str="-fprofile-arcs -ftest-coverage"
+          cmake .. -DCMAKE_INSTALL_PREFIX=$PWD -DCMAKE_CXX_FLAGS:STRING=$str -DCMAKE_C_FLAGS:STRING=$str
+          make -j 4 install
+          /usr/bin/ctest -R test_timestamp.pro
+          gcov -pb src/CMakeFiles/gdl.dir/basic_fun_cl.cpp.o
+          lcov --capture --directory . --output-file coverage.info
+          lcov -r coverage.info "/usr*" -o coverage.info 
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          gcov: true
+          gcov_include: basic_fun_cl.cpp

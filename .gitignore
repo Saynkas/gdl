@@ -7,3 +7,5 @@ install/
 gdlde/
 gdlde*.zip
 .vscode
+.idea
+cmake-build-debug

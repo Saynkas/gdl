@@ -26,15 +26,13 @@ jobs:
           git submodule update --init
           mkdir build
           cd build
-          str="-fprofile-arcs -ftest-coverage"
-          cmake .. -DCMAKE_INSTALL_PREFIX=$PWD -DCMAKE_CXX_FLAGS:STRING=$str -DCMAKE_C_FLAGS:STRING=$str
+          cmake .. -DCMAKE_INSTALL_PREFIX=$PWD -DCMAKE_CXX_FLAGS:STRING="-fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS:STRING="-fprofile-arcs -ftest-coverage"
           make -j 4 install
-          /usr/bin/ctest -R test_timestamp.pro
-          gcov -pb src/CMakeFiles/gdl.dir/basic_fun_cl.cpp.o
+          /usr/bin/ctest #-R test_timestamp.pro
+          gcov -pb src/CMakeFiles/gdl.dir/*.o
           lcov --capture --directory . --output-file coverage.info
-          lcov -r coverage.info "/usr*" -o coverage.info 
+          lcov -r coverage.info "/usr*" -o coverage.info
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           gcov: true
-          gcov_include: basic_fun_cl.cpp

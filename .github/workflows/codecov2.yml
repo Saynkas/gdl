@@ -3,6 +3,10 @@ name: codecov2
 on:
   schedule:
     - cron: "0 0 * * 2"
+  push:
+    branches:
+      - master
+  pull_request:
   workflow_dispatch:
 
 jobs:

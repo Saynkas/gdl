@@ -30,7 +30,7 @@ jobs:
           cd build
           cmake .. -DCMAKE_INSTALL_PREFIX=$PWD -DCMAKE_CXX_FLAGS:STRING="-fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS:STRING="-fprofile-arcs -ftest-coverage"
           make -j 4 install
-          make test
+          make -k test
           gcov -pb src/CMakeFiles/gdl.dir/*.o
           lcov --capture --directory . --output-file coverage.info
           lcov -r coverage.info "/usr*" -o coverage.info

@@ -14,12 +14,10 @@ jobs:
       ROOT_DIR: ${{ github.workspace }}/..
     steps:
       - name: Checkout GDL
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.5.2
       - name: Install Dependencies
         run: |
           scripts/build_gdl.sh prep
-      - name: Prepare Codecov
-        run: |
           sudo apt install -y lcov
       - name: Build GDL
         run: |
@@ -28,7 +26,7 @@ jobs:
           cd build
           cmake .. -DCMAKE_INSTALL_PREFIX=$PWD -DCMAKE_CXX_FLAGS:STRING="-fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS:STRING="-fprofile-arcs -ftest-coverage"
           make -j 4 install
-          /usr/bin/ctest #-R test_timestamp.pro
+          make test
           gcov -pb src/CMakeFiles/gdl.dir/*.o
           lcov --capture --directory . --output-file coverage.info
           lcov -r coverage.info "/usr*" -o coverage.info

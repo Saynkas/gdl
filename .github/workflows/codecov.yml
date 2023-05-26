@@ -29,11 +29,13 @@ jobs:
           mkdir build
           cd build
           cmake .. -DCMAKE_INSTALL_PREFIX=$PWD -DCMAKE_CXX_FLAGS:STRING="-fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS:STRING="-fprofile-arcs -ftest-coverage"
-          make install
+          make -j 4 install
+          lcov  --capture --initial --directory . --output-file coverage1.info
           make -k test
-          gcov -pb src/CMakeFiles/gdl.dir/*.o
-          #lcov --capture --directory . --output-file coverage.info
-          #lcov -r coverage.info "/usr*" -o coverage.info
+          lcov --capture --directory . --output-file coverage2.info
+          gcov -pb src/*.o
+          lcov --add-tracefile ./coverage1.info --add-tracefile ./coverage2.info --output-file coveragefused.info
+          lcov -r coveragefused.info "/usr*" -o coveragefused.info
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:

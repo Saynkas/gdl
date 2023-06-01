@@ -316,6 +316,7 @@ namespace lib {
     // edited by Vivien Lampin & Boudjemaa Salah in May of 2023
     BaseGDL *timestamp(EnvT *e) {
       return 0;
+    }
       /*
         static int zeroIx = e->KeywordIx("ZERO");
         bool isZero = e->KeywordSet(zeroIx);

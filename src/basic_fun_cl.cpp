@@ -312,9 +312,11 @@ namespace lib {
         //}
     }
 
-    /*// Timestamp implemented by Eloi R. de Linage in June of 2021
+    // Timestamp implemented by Eloi R. de Linage in June of 2021
     // edited by Vivien Lampin & Boudjemaa Salah in May of 2023
     BaseGDL *timestamp(EnvT *e) {
+      return 0;
+      /*
         static int zeroIx = e->KeywordIx("ZERO");
         bool isZero = e->KeywordSet(zeroIx);
         //return timestamp with all values set to 0

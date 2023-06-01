@@ -2,11 +2,11 @@ name: build
 
 on:
   schedule:
-    - cron: "0 0 * * 2"
+    - cron: "0 0 * * 2"#
   push:
     branches:
       - master
-      - '1.0'
+      - '1.0'#
     tags:
       - v**
   pull_request:

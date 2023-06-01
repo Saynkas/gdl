@@ -312,7 +312,7 @@ namespace lib {
         //}
     }
 
-    // Timestamp implemented by Eloi R. de Linage in June of 2021
+    /*// Timestamp implemented by Eloi R. de Linage in June of 2021
     // edited by Vivien Lampin & Boudjemaa Salah in May of 2023
     BaseGDL *timestamp(EnvT *e) {
         static int zeroIx = e->KeywordIx("ZERO");
@@ -601,7 +601,7 @@ namespace lib {
             (*res)[i] = finalstring;
         }
         return res;
-    }
+    }*/
 
     BaseGDL *systime(EnvT *e) {
         struct timeval tval;
